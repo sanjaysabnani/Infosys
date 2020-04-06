@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		638E41FA40DD6D5DB6BC9705 /* Pods_Project.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61F817BBCB46BFD6F2E8CB5F /* Pods_Project.framework */; };
+		B00841B0243B629200051FA2 /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00841AF243B629200051FA2 /* CustomCell.swift */; };
+		B00841B3243B633B00051FA2 /* CustomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00841B2243B633A00051FA2 /* CustomViewModel.swift */; };
+		B00841B5243B635A00051FA2 /* CustomModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00841B4243B635A00051FA2 /* CustomModel.swift */; };
+		B00841BC243B651700051FA2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00841BB243B651700051FA2 /* Constants.swift */; };
+		B00841BE243B671F00051FA2 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B00841BD243B671F00051FA2 /* APIClient.swift */; };
+		B00841C0243BBA8500051FA2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B00841BF243BBA8500051FA2 /* LaunchScreen.storyboard */; };
 		B0CFA7DD243B3B67003CFE8F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CFA7DC243B3B67003CFE8F /* AppDelegate.swift */; };
 		B0CFA7DF243B3B67003CFE8F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CFA7DE243B3B67003CFE8F /* SceneDelegate.swift */; };
 		B0CFA7E1243B3B67003CFE8F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0CFA7E0243B3B67003CFE8F /* ViewController.swift */; };
@@ -32,6 +38,12 @@
 		61F817BBCB46BFD6F2E8CB5F /* Pods_Project.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Project.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8FEE4B7E1B673610C5BA5F2A /* Pods-Project.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Project.debug.xcconfig"; path = "Target Support Files/Pods-Project/Pods-Project.debug.xcconfig"; sourceTree = "<group>"; };
 		A52446816C02779C161A52BA /* Pods_ProjectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ProjectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B00841AF243B629200051FA2 /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
+		B00841B2243B633A00051FA2 /* CustomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomViewModel.swift; sourceTree = "<group>"; };
+		B00841B4243B635A00051FA2 /* CustomModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomModel.swift; sourceTree = "<group>"; };
+		B00841BB243B651700051FA2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		B00841BD243B671F00051FA2 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		B00841BF243BBA8500051FA2 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B0CFA7D9243B3B67003CFE8F /* Project.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Project.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B0CFA7DC243B3B67003CFE8F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B0CFA7DE243B3B67003CFE8F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -66,6 +78,63 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		B00841AE243B626700051FA2 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				B00841AF243B629200051FA2 /* CustomCell.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		B00841B1243B62D600051FA2 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				B00841B2243B633A00051FA2 /* CustomViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		B00841B6243B636000051FA2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				B00841B4243B635A00051FA2 /* CustomModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		B00841B7243B643000051FA2 /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				B00841BD243B671F00051FA2 /* APIClient.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		B00841B8243B644400051FA2 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				B0CFA7E0243B3B67003CFE8F /* ViewController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		B00841B9243B64A700051FA2 /* AppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				B0CFA7DC243B3B67003CFE8F /* AppDelegate.swift */,
+				B0CFA7DE243B3B67003CFE8F /* SceneDelegate.swift */,
+			);
+			path = AppDelegate;
+			sourceTree = "<group>";
+		};
+		B00841BA243B650200051FA2 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				B00841BB243B651700051FA2 /* Constants.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		B0CFA7D0243B3B67003CFE8F = {
 			isa = PBXGroup;
 			children = (
@@ -89,12 +158,17 @@
 		B0CFA7DB243B3B67003CFE8F /* Project */ = {
 			isa = PBXGroup;
 			children = (
-				B0CFA7DC243B3B67003CFE8F /* AppDelegate.swift */,
-				B0CFA7DE243B3B67003CFE8F /* SceneDelegate.swift */,
-				B0CFA7E0243B3B67003CFE8F /* ViewController.swift */,
+				B00841BA243B650200051FA2 /* Resources */,
+				B00841B9243B64A700051FA2 /* AppDelegate */,
+				B00841B8243B644400051FA2 /* Controllers */,
+				B00841B7243B643000051FA2 /* Networking */,
+				B00841B6243B636000051FA2 /* Models */,
+				B00841B1243B62D600051FA2 /* ViewModels */,
+				B00841AE243B626700051FA2 /* Views */,
 				B0CFA7E8243B3B68003CFE8F /* Assets.xcassets */,
 				B0CFA7ED243B3B68003CFE8F /* Info.plist */,
 				B0CFA7E5243B3B67003CFE8F /* Project.xcdatamodeld */,
+				B00841BF243BBA8500051FA2 /* LaunchScreen.storyboard */,
 			);
 			path = Project;
 			sourceTree = "<group>";
@@ -116,7 +190,6 @@
 				4B2B716F1E7F66CC2AEB7362 /* Pods-ProjectTests.debug.xcconfig */,
 				D812EAC2F3DAA1357CA1A1E3 /* Pods-ProjectTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -213,6 +286,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B0CFA7E9243B3B68003CFE8F /* Assets.xcassets in Resources */,
+				B00841C0243BBA8500051FA2 /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -279,8 +353,13 @@
 			files = (
 				B0CFA7E1243B3B67003CFE8F /* ViewController.swift in Sources */,
 				B0CFA7DD243B3B67003CFE8F /* AppDelegate.swift in Sources */,
+				B00841B5243B635A00051FA2 /* CustomModel.swift in Sources */,
+				B00841B0243B629200051FA2 /* CustomCell.swift in Sources */,
+				B00841B3243B633B00051FA2 /* CustomViewModel.swift in Sources */,
 				B0CFA7DF243B3B67003CFE8F /* SceneDelegate.swift in Sources */,
 				B0CFA7E7243B3B67003CFE8F /* Project.xcdatamodeld in Sources */,
+				B00841BC243B651700051FA2 /* Constants.swift in Sources */,
+				B00841BE243B671F00051FA2 /* APIClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,7 +432,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -407,7 +486,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
