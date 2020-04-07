@@ -8,15 +8,15 @@
 
 import UIKit
 
-struct CustomModel {
+struct CustomModel : Codable {
 
     var title : String?
-    var descriptn : String?
-    var imageRef : String?
+    var description : String?
+    var imageHref : String?
 
-    init(title : String? = "", descriptn : String? = "", imageRef: String? = "") {
+    init(title : String? = "", description : String? = "", imageHref: String? = "") {
         self.title = title
-        self.descriptn = descriptn
-        self.imageRef = imageRef
+        self.description = description
+        self.imageHref = imageHref
     }
 }

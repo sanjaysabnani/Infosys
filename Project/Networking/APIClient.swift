@@ -28,14 +28,17 @@ public class APIClient: NSObject {
     }
     
     // MARK: Client request with JSON response task
-    public func apiJsonDataTask(request: URLRequest, completion: @escaping (_ success: Bool, _ object: AnyObject?) -> ()) {
+    public func apiJsonDataTask(request: URLRequest, completion: @escaping (_ success: Bool, _ object: [String:Any]?) -> ()) {
         
         self.apiDataTask(request: request) { (success, dataObject) in
+            //Addition Conversion to String and Then Back to Data
+            let str = String(decoding: dataObject!, as: UTF8.self)
+            let dataObj = Data(str.utf8)
+            let json = try? JSONSerialization.jsonObject(with: dataObj, options: []) as? [String:Any]
             if success == true {
-                let json = try? JSONSerialization.jsonObject(with: dataObject!, options: []) as AnyObject
-                completion(true, json)
+              completion(true, json)
             } else {
-                completion(false, nil)
+                completion(false, json)
             }
         }
     }
@@ -81,7 +84,7 @@ public class APIClient: NSObject {
     }
     
     // MARK: composition methods
-    public func get(request: URLRequest, completion: @escaping (_ success: Bool, _ object: AnyObject?) -> ()) {
+    public func get(request: URLRequest, completion: @escaping (_ success: Bool, _ object: [String:Any]?) -> ()) {
         apiJsonDataTask(request: request, completion: completion)
     }
    

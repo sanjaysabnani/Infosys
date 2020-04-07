@@ -11,6 +11,7 @@ import UIKit
 class ViewController: UIViewController {
     var tableView : UITableView?
     var apiClient = APIClient()
+    var customModels = [CustomModel]()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -25,55 +26,73 @@ class ViewController: UIViewController {
         tableView = UITableView(frame: self.view.bounds,style: .plain)
         tableView?.dataSource = self
         tableView?.delegate = self
+        tableView?.register(CustomCell.self, forCellReuseIdentifier: "CustomCell")
         self.view.addSubview(tableView!)
         
         fetchTableData{(success, jsonObject) in
-            if(success) {
-                if let jsonObject = jsonObject {
-//                    print(jsonObject)
+            if success {
+                if let title = jsonObject?["title"] as? String  {
+                     DispatchQueue.main.async  {
+                    self.title = (title)
+                    }
                 }
-            }
+                if let rowsArray : [[String:Any]] = jsonObject?["rows"] as? [[String : Any]] {
+                    for row in rowsArray {
+                        self.customModels.append  (CustomModel(title: row["title"] as? String, description:row ["description"] as? String, imageHref: row["imageHref"] as? String))
+                    }
+                    DispatchQueue.main.async  {
+                    self.tableView?.reloadData()
+                    }
+                }
+                  }
+                else {
+                let error = jsonObject?["error"] as! Error
+                  print()
+                let alertView =  UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+                self.present(alertView, animated: true, completion: nil)
+                  }
         }
     
-    }
-    
-    func fetchTableData(completion: @escaping (_ success: Bool, _ object: AnyObject?) -> ()) {
-        let tableDataRequest = apiClient.makeGETRequest(url: URL(string:Constants.tableDataUrl)! , params: nil)
-                      
-                      apiClient.get(request: tableDataRequest as URLRequest) { (success, jsonObject) in
-                          print(jsonObject as Any)
-                          if success {
-//                              print(jsonObject as Any)
-                          }
-                          completion(success, jsonObject)
-                      }
     }
     
     func setupStatusBar() ->Void {
         
     }
+    
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-           super.viewWillTransition(to: size, with: coordinator)
-           if UIDevice.current.orientation.isLandscape {
-               print("Landscape")
-              
-           } else {
-               print("Portrait")
-             
-           }
-       }
+        super.viewWillTransition(to: size, with: coordinator)
+        self.view.layoutIfNeeded()
+        let animationHandler: ((UIViewControllerTransitionCoordinatorContext) -> Void) = { [weak self] (context) in
+            // This block will be called several times during rotation,
+            // so if you want your tableView change more smooth reload it here too.
+            self?.tableView?.reloadData()
+        }
+
+        let completionHandler: ((UIViewControllerTransitionCoordinatorContext) -> Void) = { [weak self] (context) in
+            // This block will be called when rotation will be completed
+            self?.tableView?.reloadData()
+        }
+        coordinator.animate(alongsideTransition: animationHandler, completion: completionHandler)
+    }
 }
 extension ViewController : UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return customModels.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let customCell = UITableViewCell()
         
+        let customCell = tableView.dequeueReusableCell(withIdentifier: "CustomCell") as! CustomCell
+        customCell.customViewModel = CustomViewModel(customModel: customModels[indexPath.row])
         return customCell
     }
     
+    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 300
+    }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 300
+    }
     
 }
 

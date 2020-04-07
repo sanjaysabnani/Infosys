@@ -13,6 +13,10 @@ struct CustomViewModel {
     var descriptn : String?
     var image : UIImage?
     
-  
+    init(customModel:CustomModel) {
+        self.title = customModel.title
+        self.descriptn = customModel.description
+        self.image = nil
+    }
 
 }
