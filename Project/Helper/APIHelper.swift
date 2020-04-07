@@ -10,11 +10,11 @@ import Foundation
 
 let apiClient = APIClient()
 
-    func fetchTableData(completion: @escaping (_ success: Bool, _ object: [String:Any]?) -> ()) {
+func fetchTableData(completion: @escaping (_ success: Bool, _ object: [String:Any]?,_ error : Error?) -> ()) {
         let tableDataRequest = apiClient.makeGETRequest(url: URL(string:Constants.tableDataUrl)! , params: nil)
                       
-                      apiClient.get(request: tableDataRequest as URLRequest) { (success, jsonObject) in
+                      apiClient.get(request: tableDataRequest as URLRequest) { (success, jsonObject,error) in
                           print(jsonObject as Any)
-                            completion(success, jsonObject)
+                            completion(success, jsonObject,error)
                       }
     }

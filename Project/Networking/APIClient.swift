@@ -28,29 +28,33 @@ public class APIClient: NSObject {
     }
     
     // MARK: Client request with JSON response task
-    public func apiJsonDataTask(request: URLRequest, completion: @escaping (_ success: Bool, _ object: [String:Any]?) -> ()) {
+    public func apiJsonDataTask(request: URLRequest, completion: @escaping (_ success: Bool, _ object: [String:Any]?, _ error: Error? ) -> ()) {
         
-        self.apiDataTask(request: request) { (success, dataObject) in
+        self.apiDataTask(request: request) { (success, dataObject,error) in
             //Addition Conversion to String and Then Back to Data
-            let str = String(decoding: dataObject!, as: UTF8.self)
-            let dataObj = Data(str.utf8)
-            let json = try? JSONSerialization.jsonObject(with: dataObj, options: []) as? [String:Any]
             if success == true {
-              completion(true, json)
-            } else {
-                completion(false, json)
-            }
+                        let str = String(decoding: dataObject!, as: UTF8.self)
+                        let dataObj = Data(str.utf8)
+                        let json = try? JSONSerialization.jsonObject(with: dataObj, options: []) as? [String:Any]
+                         completion(true, json,error)
+                
+                       } else {
+                            completion(false, nil,error)
+                       }
+          
+           
         }
     }
     
     // MARK: Client request with data response task
-    public func apiDataTask(request: URLRequest, completion: @escaping (_ success: Bool, _ object: Data?) -> ()) {
+    public func apiDataTask(request: URLRequest, completion: @escaping (_ success: Bool, _ object: Data?, _ error : Error?) -> ()) {
         dataTask = session.dataTask(with: request) { (data, response, error) -> Void in
             print(data as Any)
             
             guard let data = data, error == nil else {                                                 // check for fundamental networking error
                 print("error=\(String(describing: error?.localizedDescription))")
-                completion(false, nil)
+                
+                completion(false, nil,error)
                 return
             }
             
@@ -58,9 +62,9 @@ public class APIClient: NSObject {
                 print("statusCode should be 200, but is \(httpStatus.statusCode)")
                 print("response = \(String(describing: response))")
                 print("Data: \(String(describing: String.init(data: data, encoding: .utf8)))")
-                completion(false, data)
+                completion(false, data,error)
             } else {
-                completion(true, data)
+                completion(true, data,error)
             }
         }
         dataTask?.resume()
@@ -84,7 +88,7 @@ public class APIClient: NSObject {
     }
     
     // MARK: composition methods
-    public func get(request: URLRequest, completion: @escaping (_ success: Bool, _ object: [String:Any]?) -> ()) {
+    public func get(request: URLRequest, completion: @escaping (_ success: Bool, _ object: [String:Any]?, _ error : Error?) -> ()) {
         apiJsonDataTask(request: request, completion: completion)
     }
    

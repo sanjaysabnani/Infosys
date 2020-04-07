@@ -27,9 +27,18 @@ class ViewController: UIViewController {
         tableView?.dataSource = self
         tableView?.delegate = self
         tableView?.register(CustomCell.self, forCellReuseIdentifier: "CustomCell")
-        self.view.addSubview(tableView!)
+        tableView?.rowHeight = UITableView.automaticDimension
+        tableView?.estimatedRowHeight = 600
         
-        fetchTableData{(success, jsonObject) in
+        self.view.addSubview(tableView!)
+        tableView?.translatesAutoresizingMaskIntoConstraints = false
+        tableView?.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
+        tableView?.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
+        tableView?.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
+        tableView?.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
+        
+        
+        fetchTableData{(success, jsonObject,error) in
             if success {
                 if let title = jsonObject?["title"] as? String  {
                      DispatchQueue.main.async  {
@@ -46,11 +55,13 @@ class ViewController: UIViewController {
                 }
                   }
                 else {
-                let error = jsonObject?["error"] as! Error
-                  print()
-                let alertView =  UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
-                self.present(alertView, animated: true, completion: nil)
-                  }
+                DispatchQueue.main.async {
+                    let alertView =  UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                    let okButton = UIAlertAction(title: "OK", style: .default, handler: nil)
+                    alertView.addAction(okButton)
+                                  self.present(alertView, animated: true, completion: nil)
+                }
+             }
         }
     
     }
@@ -81,18 +92,17 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        let customCell = tableView.dequeueReusableCell(withIdentifier: "CustomCell") as! CustomCell
+        let customCell = CustomCell(style: .value1, reuseIdentifier: "CustomCell")
         customCell.customViewModel = CustomViewModel(customModel: customModels[indexPath.row])
         return customCell
     }
     
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 300
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 300
-    }
+//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return 200
+//    }
+//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+//        return UITableView.automaticDimension
+//    }
     
 }
 
