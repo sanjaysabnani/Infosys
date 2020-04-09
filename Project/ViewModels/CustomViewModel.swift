@@ -8,15 +8,16 @@
 
 import UIKit
 
-struct CustomViewModel {
+class CustomViewModel {
     var title : String?
     var descriptn : String?
     var image : UIImage?
+    var imgHref : URL?
     
-    init(customModel:CustomModel) {
+    init(customModel:ImageModel) {
         self.title = customModel.title
         self.descriptn = customModel.description
-        self.image = nil
+        self.imgHref = URL(string: customModel.imageHref ?? "")
     }
 
 }

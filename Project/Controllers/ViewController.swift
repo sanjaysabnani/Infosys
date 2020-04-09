@@ -11,7 +11,7 @@ import UIKit
 class ViewController: UIViewController {
     var tableView : UITableView?
     var apiClient = APIClient()
-    var customModels = [CustomModel]()
+    var customModels = [ImageModel]()
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -28,32 +28,28 @@ class ViewController: UIViewController {
         tableView?.delegate = self
         tableView?.register(CustomCell.self, forCellReuseIdentifier: "CustomCell")
         tableView?.rowHeight = UITableView.automaticDimension
-        tableView?.estimatedRowHeight = 600
-        
+        tableView?.estimatedRowHeight = 100
         self.view.addSubview(tableView!)
         tableView?.translatesAutoresizingMaskIntoConstraints = false
         tableView?.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         tableView?.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         tableView?.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         tableView?.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-        
-        
-        fetchTableData{(success, jsonObject,error) in
+     
+        fetchTableData{(success, customModel ,error) in
             if success {
-                if let title = jsonObject?["title"] as? String  {
+                if let title = customModel?.title   {
                      DispatchQueue.main.async  {
                     self.title = (title)
                     }
                 }
-                if let rowsArray : [[String:Any]] = jsonObject?["rows"] as? [[String : Any]] {
-                    for row in rowsArray {
-                        self.customModels.append  (CustomModel(title: row["title"] as? String, description:row ["description"] as? String, imageHref: row["imageHref"] as? String))
-                    }
+                if let rows = customModel?.rows{
+                    self.customModels = rows
                     DispatchQueue.main.async  {
                     self.tableView?.reloadData()
                     }
                 }
-                  }
+            }
                 else {
                 DispatchQueue.main.async {
                     let alertView =  UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)

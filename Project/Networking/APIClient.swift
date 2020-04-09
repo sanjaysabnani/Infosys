@@ -7,44 +7,49 @@
 //
 
 import Foundation
+import UIKit
 
 public class APIClient: NSObject {
     
-    private var session: URLSession!;
+    private var session: URLSession!
     var dataTask: URLSessionDataTask?
+    var downloadTask : URLSessionDownloadTask?
     
     override public init() {
         super.init()
-        self.session = {
-            let sessionConfiguration = URLSessionConfiguration.default
-            let username = ""
-            sessionConfiguration.connectionProxyDictionary = [
-                kCFNetworkProxiesHTTPEnable as AnyHashable: true,
-                kCFProxyUsernameKey as AnyHashable: username,
-                kCFProxyPasswordKey as AnyHashable: ""
-            ]
-            return URLSession(configuration: sessionConfiguration, delegate: nil, delegateQueue: nil)
-        }()
+        self.session = URLSession(configuration: URLSessionConfiguration.default, delegate: nil, delegateQueue: nil)
     }
     
+   
+    
     // MARK: Client request with JSON response task
-    public func apiJsonDataTask(request: URLRequest, completion: @escaping (_ success: Bool, _ object: [String:Any]?, _ error: Error? ) -> ()) {
+    public  func apiJsonDataTask(request: URLRequest, completion: @escaping (_ success: Bool, _ data: Data?, _ error: Error? ) -> ()) {
         
         self.apiDataTask(request: request) { (success, dataObject,error) in
             //Addition Conversion to String and Then Back to Data
             if success == true {
                         let str = String(decoding: dataObject!, as: UTF8.self)
                         let dataObj = Data(str.utf8)
-                        let json = try? JSONSerialization.jsonObject(with: dataObj, options: []) as? [String:Any]
-                         completion(true, json,error)
-                
+                        completion(success,dataObj,error)
                        } else {
-                            completion(false, nil,error)
+                        completion(success, dataObject,error)
                        }
-          
-           
-        }
+            }
     }
+    
+    public  func apiImageDataTask(request: URLRequest, completion: @escaping (_ success: Bool, _ image: UIImage?, _ error: Error? ) -> ()) {
+        
+        self.apiDataTask(request: request) { (success, dataObject,error) in
+            var img : UIImage?
+            if success == true {
+                        img = UIImage(data: dataObject!)
+                        completion(success,img,error)
+                       } else {
+                        completion(success, img,error)
+                       }
+            }
+    }
+    
     
     // MARK: Client request with data response task
     public func apiDataTask(request: URLRequest, completion: @escaping (_ success: Bool, _ object: Data?, _ error : Error?) -> ()) {
@@ -88,7 +93,7 @@ public class APIClient: NSObject {
     }
     
     // MARK: composition methods
-    public func get(request: URLRequest, completion: @escaping (_ success: Bool, _ object: [String:Any]?, _ error : Error?) -> ()) {
+     func get(request: URLRequest, completion: @escaping (_ success: Bool, _ data: Data?, _ error : Error?) -> ()) {
         apiJsonDataTask(request: request, completion: completion)
     }
    
@@ -116,6 +121,7 @@ public class APIClient: NSObject {
         }
         return paramString
     }
+    
 }
 
 
