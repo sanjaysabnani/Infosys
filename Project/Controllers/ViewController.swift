@@ -16,13 +16,13 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         self.setupTableView()
-        self.setupStatusBar()
-
+        self.setupTableViewConstraints()
+        self.populateTableView()
         
     }
     
     
-    func setupTableView() ->Void {
+    private func setupTableView() ->Void {
         tableView = UITableView(frame: self.view.bounds,style: .plain)
         tableView?.dataSource = self
         tableView?.delegate = self
@@ -30,56 +30,39 @@ class ViewController: UIViewController {
         tableView?.rowHeight = UITableView.automaticDimension
         tableView?.estimatedRowHeight = 100
         self.view.addSubview(tableView!)
+    }
+    
+    private func setupTableViewConstraints() ->Void {
         tableView?.translatesAutoresizingMaskIntoConstraints = false
         tableView?.topAnchor.constraint(equalTo: self.view.topAnchor).isActive = true
         tableView?.leadingAnchor.constraint(equalTo: self.view.leadingAnchor).isActive = true
         tableView?.bottomAnchor.constraint(equalTo: self.view.bottomAnchor).isActive = true
         tableView?.trailingAnchor.constraint(equalTo: self.view.trailingAnchor).isActive = true
-     
+    }
+   private func populateTableView() {
         fetchTableData{(success, customModel ,error) in
-            if success {
-                if let title = customModel?.title   {
-                     DispatchQueue.main.async  {
-                    self.title = (title)
+                   if success {
+                       if let title = customModel?.title   {
+                            DispatchQueue.main.async  {
+                           self.title = (title)
+                           }
+                       }
+                       if let rows = customModel?.rows{
+                           self.customModels = rows
+                           DispatchQueue.main.async  {
+                           self.tableView?.reloadData()
+                           }
+                       }
+                   }
+                       else {
+                       DispatchQueue.main.async {
+                           let alertView =  UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
+                           let okButton = UIAlertAction(title: "OK", style: .default, handler: nil)
+                           alertView.addAction(okButton)
+                                         self.present(alertView, animated: true, completion: nil)
+                       }
                     }
-                }
-                if let rows = customModel?.rows{
-                    self.customModels = rows
-                    DispatchQueue.main.async  {
-                    self.tableView?.reloadData()
-                    }
-                }
-            }
-                else {
-                DispatchQueue.main.async {
-                    let alertView =  UIAlertController(title: "Error", message: error?.localizedDescription, preferredStyle: .alert)
-                    let okButton = UIAlertAction(title: "OK", style: .default, handler: nil)
-                    alertView.addAction(okButton)
-                                  self.present(alertView, animated: true, completion: nil)
-                }
-             }
-        }
-    
-    }
-    
-    func setupStatusBar() ->Void {
-        
-    }
-    
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        self.view.layoutIfNeeded()
-        let animationHandler: ((UIViewControllerTransitionCoordinatorContext) -> Void) = { [weak self] (context) in
-            // This block will be called several times during rotation,
-            // so if you want your tableView change more smooth reload it here too.
-            self?.tableView?.reloadData()
-        }
-
-        let completionHandler: ((UIViewControllerTransitionCoordinatorContext) -> Void) = { [weak self] (context) in
-            // This block will be called when rotation will be completed
-            self?.tableView?.reloadData()
-        }
-        coordinator.animate(alongsideTransition: animationHandler, completion: completionHandler)
+               }
     }
 }
 extension ViewController : UITableViewDelegate, UITableViewDataSource {
@@ -92,13 +75,5 @@ extension ViewController : UITableViewDelegate, UITableViewDataSource {
         customCell.customViewModel = CustomViewModel(customModel: customModels[indexPath.row])
         return customCell
     }
-    
-//    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return 200
-//    }
-//    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-//        return UITableView.automaticDimension
-//    }
-    
 }
 

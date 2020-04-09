@@ -7,28 +7,24 @@
 //
 
 import UIKit
-  var ImageCache = [URL:UIImage]()
+var ImageCache = [URL:UIImage]()
 class CustomImageView: UIImageView {
-
-  let apiClient = APIClient()
-  
-    func loadImageFromNetwork(url : URL?) {
+func loadImageFromNetwork(url : URL?,completion: @escaping(_ success : Bool)->()) {
         guard let url = url else{return}
         self.image = nil
-       print("IMAGE CACHE \(ImageCache)")
         if let img = ImageCache[url]  {
             self.image = img
         }
         else {
-            let cellImageRequest = apiClient.makeGETRequest(url: url , params: nil)
-           apiClient.apiImageDataTask(request: cellImageRequest) { [weak self](success, img, error) in
-            if error == nil {
-                DispatchQueue.main.async {
-               ImageCache[url] = img
-                    self?.image = img
+            fetchCellImages(url: url) { (success, image, error) in
+                if error == nil {
+                    DispatchQueue.main.async {
+                   ImageCache[url] = image
+                        self.image = image
+                        completion(success)
+                    }
                 }
             }
-           }
         }
     }
 }

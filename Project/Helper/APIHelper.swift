@@ -20,7 +20,7 @@ func fetchTableData(completion: @escaping (_ success: Bool, _ customModel : Cust
                       }
     }
 
-func fetchTableImages(url : URL , completion :@escaping(_ success : Bool, _ img : UIImage, _ error : Error?)->Void){
+func fetchCellImages(url : URL , completion :@escaping(_ success : Bool, _ img : UIImage, _ error : Error?)->Void){
     let cellImageRequest = apiClient.makeGETRequest(url: url , params: nil)
     apiClient.apiImageDataTask(request: cellImageRequest) { (success, img, error) in
         completion(success,img ?? UIImage(),error)
